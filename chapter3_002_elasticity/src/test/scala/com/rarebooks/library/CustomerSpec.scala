@@ -3,7 +3,7 @@ package com.rarebooks.library
 import scala.concurrent.duration._
 import akka.testkit.{EventFilter, TestProbe}
 
-class CustomerSpec extends BaseAkkaSpec("as-3001-customer-spec") {
+class CustomerSpec extends BaseAkkaSpec("as-3002-customer-spec") {
 
   import Catalog._
   import RareBooksProtocol._
@@ -57,15 +57,15 @@ class CustomerSpec extends BaseAkkaSpec("as-3001-customer-spec") {
       }
     }
     "increase Customer.model.bookNotFound by 1 for 1 book not found" in {
-      val rarebooks = TestProbe()
-      implicit val _ = rarebooks.ref
-      val customer = system.actorOf(Customer.props(rarebooks.ref, OddsZero, ToleranceFive))
-      rarebooks.expectMsgType[FindBookByTopic]
+      val rareBooks = TestProbe()
+      implicit val _ = rareBooks.ref
+      val customer = system.actorOf(Customer.props(rareBooks.ref, OddsZero, ToleranceFive))
+      rareBooks.expectMsgType[FindBookByTopic]
       customer ! BookNotFound("Unknown")
-      rarebooks.awaitAssert {
-        rarebooks.within(1.second) {
+      rareBooks.awaitAssert {
+        rareBooks.within(1.second) {
           customer ! GetCustomer()
-          rarebooks.expectMsg(Customer.CustomerModel(OddsZero, ToleranceFive, 0, 1))
+          rareBooks.expectMsg(Customer.CustomerModel(OddsZero, ToleranceFive, 0, 1))
         }
       }
     }
