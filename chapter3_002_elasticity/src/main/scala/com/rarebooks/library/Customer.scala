@@ -42,7 +42,7 @@ object Customer {
 /**
  * Customer actor.
  *
- * @param rareBooks reference to rareBooks actor
+ * @param rareBooks reference to librarian actor
  */
 class Customer(rareBooks: ActorRef, odds: Int, tolerance: Int) extends Actor with ActorLogging {
 

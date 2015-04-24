@@ -11,7 +11,7 @@ object Librarian {
   final case class Done(e: Either[BookNotFound, BookFound], customer: ActorRef)
 
   def props(findBookDuration: FiniteDuration): Props =
-      Props(new Librarian(findBookDuration))
+    Props(new Librarian(findBookDuration))
 
   /**
    * Convert option to either function.
@@ -76,6 +76,7 @@ class Librarian(findBookDuration: FiniteDuration) extends Actor with ActorLoggin
    * @return partial function ready
    */
   override def receive: Receive = ready
+
   /**
    * Behavior when ready to receive a find book request
    *

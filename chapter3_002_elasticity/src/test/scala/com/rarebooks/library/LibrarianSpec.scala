@@ -3,7 +3,7 @@ package com.rarebooks.library
 import akka.testkit.{ EventFilter, TestProbe }
 import scala.concurrent.duration.{ Duration, MILLISECONDS => Millis }
 
-class LibrarianSpec extends BaseAkkaSpec("as-3001-librarian-spec") {
+class LibrarianSpec extends BaseAkkaSpec("as-3002-librarian-spec") {
 
   import RareBooksProtocol._
 
