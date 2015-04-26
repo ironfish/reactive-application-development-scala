@@ -4,8 +4,10 @@ In this source code example we will introduce failure to simulate when a librari
 
 ## `Librarian` Actor
 
-1. Implement a `max-complaint-count` for our `Librarian`.
-2. When the number of `Complain` messages received equals the `max-complain-count`, out `Librarian` will throw a `ComplainException`.
+1. Implement a `max-complain-count` for our `Librarian`.
+3. Create `ComplainException(c: Complain, customer: ActorRef)`.
+4. Keep local state, `complainCount`, of the number of `Complain` messages received.
+2. When `complainCount` equals `max-complain-count`, the `Librarian` will throw a `ComplainException`.
 
 ## Summary
 
