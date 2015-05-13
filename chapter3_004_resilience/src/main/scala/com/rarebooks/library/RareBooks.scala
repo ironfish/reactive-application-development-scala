@@ -34,7 +34,7 @@ class RareBooks extends Actor with ActorLogging with Stash {
     Duration(context.system.settings.config.getDuration("rare-books.open-duration", Millis), Millis)
 
   private val closeDuration: FiniteDuration =
-    Duration(context.system.settings.config.getDuration("rare-books.open-duration", Millis), Millis)
+    Duration(context.system.settings.config.getDuration("rare-books.close-duration", Millis), Millis)
 
   private val nbrOfLibrarians: Int = context.system.settings.config getInt "rare-books.nbr-of-librarians"
 
