@@ -3,6 +3,8 @@ package com.rarebooks.library
 import akka.actor.{ ActorRef, ActorSystem }
 import akka.event.Logging
 import scala.annotation.tailrec
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import scala.io.StdIn
 
 object RareBooksApp {
@@ -41,7 +43,7 @@ class RareBooksApp(system: ActorSystem) extends Console {
   def run(): Unit = {
     log.warning(f"{} running%nEnter commands [`q` = quit, `2c` = 2 customers, etc.]:", getClass.getSimpleName)
     commandLoop()
-    system.awaitTermination()
+    Await.ready(system.whenTerminated, Duration.Inf)
   }
 
   @tailrec
@@ -51,7 +53,7 @@ class RareBooksApp(system: ActorSystem) extends Console {
         createCustomer(count, odds, tolerance)
         commandLoop()
       case Command.Quit =>
-        system.shutdown()
+        system.terminate()
       case Command.Unknown(command) =>
         log.warning(s"Unknown command $command")
         commandLoop()
