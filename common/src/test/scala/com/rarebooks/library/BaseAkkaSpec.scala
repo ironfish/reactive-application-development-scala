@@ -3,13 +3,14 @@ package com.rarebooks.library
 import akka.actor.{ ActorIdentity, ActorRef, ActorSystem, Identify }
 import akka.testkit.{ EventFilter, TestEvent, TestProbe }
 import org.scalatest.BeforeAndAfterAll
+import scala.concurrent.Await
 import scala.concurrent.duration.{ DurationInt, FiniteDuration }
 
 abstract class BaseAkkaSpec(actorSystemName: String) extends BaseSpec with BeforeAndAfterAll {
 
   implicit class TestProbeOps(probe: TestProbe) {
-
-    def expectActor(path: String, max: FiniteDuration = probe.remaining): ActorRef = {
+    
+    def expectActor(path: String, max: FiniteDuration = 3.seconds): ActorRef = {
       probe.within(max) {
         var actor = null: ActorRef
         probe.awaitAssert {
@@ -30,7 +31,6 @@ abstract class BaseAkkaSpec(actorSystemName: String) extends BaseSpec with Befor
   system.eventStream.publish(TestEvent.Mute(EventFilter.error()))
 
   override protected def afterAll(): Unit = {
-    system.shutdown()
-    system.awaitTermination()
+    Await.ready(system.terminate(), 20.seconds)
   }
 }
