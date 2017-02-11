@@ -1,7 +1,7 @@
 val akkaVersion = "2.4.2"
 val logbackVer = "1.1.2"
 
-name := "chapter5_001_remoting_catalog"
+name := "catalog"
 organization := "com.rarebooks"
 version := "0.1-SNAPSHOT"
 scalaVersion := "2.11.8"
