@@ -1,6 +1,6 @@
 package com.rarebooks.library
 
-import akka.actor.{ActorSystem, Address, RootActorPath}
+import akka.actor.{ActorSelection, ActorSystem, Address, RootActorPath}
 import akka.event.Logging
 
 import scala.annotation.tailrec
@@ -67,7 +67,12 @@ class CustomerApp(system: ActorSystem) extends Console {
     * @param tolerance maximum number of books not found before customer complains
     */
   protected def createCustomer(count: Int, odds: Int, tolerance: Int): Unit = {
-    system.actorSelection(RootActorPath(rareBooksAddress) / "user" / "rare-books").resolveOne(resolveTimeout).onComplete {
+    val selection: ActorSelection  =
+        system.actorSelection(
+        RootActorPath(rareBooksAddress) /
+        "user" / "rare-books")
+
+    selection.resolveOne(resolveTimeout).onComplete {
       case scala.util.Success(rareBooks) =>
         for (_ <- 1 to count)
           system.actorOf(Customer.props(rareBooks, odds, tolerance))
