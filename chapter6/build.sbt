@@ -1,11 +1,24 @@
+val akkaVersion = "2.4.17"
+val logbackVer = "1.2.1"
+
 lazy val commonSettings = Seq(
   organization := "com.rarebooks",
   version := "0.2-SNAPSHOT",
   scalaVersion := "2.11.8",
   parallelExecution in Test := false,
   logBuffered in Test := false,
-  parallelExecution in ThisBuild := false
+  parallelExecution in ThisBuild := false,
+  resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases",
+  libraryDependencies ++= Seq(
+    "com.typesafe.akka"      %% "akka-actor"       % akkaVersion,
+    "com.typesafe.akka"      %% "akka-remote"      % akkaVersion,
+    "com.typesafe.akka"      %% "akka-slf4j"       % akkaVersion,
+    "ch.qos.logback"         %  "logback-classic"  % logbackVer,
+    "com.typesafe.akka"      %% "akka-testkit"     % akkaVersion    % "test",
+    "org.scalatest"          %% "scalatest"        % "2.2.6"        % "test"
+  )
 )
+resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
 lazy val common = project.
   settings(commonSettings)
