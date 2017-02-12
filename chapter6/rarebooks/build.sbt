@@ -1,20 +1,8 @@
-val akkaVersion = "2.4.2"
-val logbackVer = "1.1.2"
+val akkaVersion = "2.4.17"
+val logbackVer = "1.2.1"
 
 name := "rarebooks"
-organization := "com.rarebooks"
-version := "0.1-SNAPSHOT"
-scalaVersion := "2.11.8"
-scalacOptions ++= Seq(
-  "-unchecked",
-  "-deprecation",
-  "-language:_",
-  "-target:jvm-1.7",
-  "-encoding", "UTF-8"
-)
-parallelExecution in Test := false
-logBuffered in Test := false
-parallelExecution in ThisBuild := false
+
 resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 libraryDependencies ++= Seq(
   "com.typesafe.akka"      %% "akka-actor"       % akkaVersion,
