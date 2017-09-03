@@ -27,6 +27,9 @@ object Cataloging extends App {
   private val parsing: ByteString => Array [String] =
     _.utf8String.split(",")
 
+  import LibraryProtocol._
+  val topics = Set(Africa, Asia, Gilgamesh, Greece, Persia, Philosophy, Royalty, Tradition)
+  val topic: String => Set[Topic] = s  => Set(topics.find(s == _.toString).getOrElse(Unknown))
   private val conversion: Array[String] => BookCard =
     s => BookCard(
       isbn = s(0),
@@ -34,7 +37,7 @@ object Cataloging extends App {
       title = s(2),
       description = s(3),
       dateOfOrigin = s(4),
-      topic = Set.empty,
+      topic = topic(s(5)),
       publisher = s(6),
       language = s(7),
       pages = s(8).toInt
