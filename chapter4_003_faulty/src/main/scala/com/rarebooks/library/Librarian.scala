@@ -113,7 +113,7 @@ class Librarian(findBookDuration: FiniteDuration, maxComplainCount: Int) extends
     case Done(e, s) =>
       process(e, s)
       unstashAll()
-      context.become(ready)
+      context.unbecome()
     case _ =>
       stash()
   }

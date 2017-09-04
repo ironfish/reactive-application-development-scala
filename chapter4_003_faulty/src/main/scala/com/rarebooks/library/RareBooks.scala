@@ -59,7 +59,7 @@ class RareBooks extends Actor with ActorLogging with Stash {
     case Close =>
       context.system.scheduler.scheduleOnce(closeDuration, self, Open)
       log.info("Closing down for the day")
-      context.become(close)
+      context.become(closed)
       self ! Report
   }
 
@@ -68,16 +68,16 @@ class RareBooks extends Actor with ActorLogging with Stash {
    *
    * @return partial function for completing the request.
    */
-  private def close: Receive = {
+  private def closed: Receive = {
+    case Report =>
+      totalRequests += requestsToday
+      log.info(s"$requestsToday requests processed today. Total requests processed = $totalRequests")
+      requestsToday = 0
     case Open =>
       context.system.scheduler.scheduleOnce(openDuration, self, Close)
       unstashAll()
       log.info("Time to open up!")
       context.become(open)
-    case Report =>
-      totalRequests += requestsToday
-      log.info(s"$requestsToday requests processed today. Total requests processed = $totalRequests")
-      requestsToday = 0
     case _ =>
       stash()
   }
