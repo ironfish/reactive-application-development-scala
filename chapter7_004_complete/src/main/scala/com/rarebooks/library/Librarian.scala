@@ -102,12 +102,17 @@ class Librarian(findBookDuration: FiniteDuration, maxComplainCount: Int) extends
       case f: FindBookByTopic =>
         research(Done(findByTopic(f), sender()))
     }
-    case LibInit => sender() ! LibAck
+    case LibInit =>
+      log.info("Starting load")
+      sender() ! LibAck
     case b: BookCard =>
+      log.info(s"Received card $b")
       Catalog.books = Catalog.books + ((b.isbn, b))
       sender() ! LibAck
-    case LibComplete =>
     case LibError(e) =>
+      log.error("Load error", e)
+    case LibComplete =>
+      log.info("Complete load")
   }
 
   /**

@@ -17,7 +17,7 @@ object Cataloging extends App {
   implicit val system = ActorSystem("catalog-loader")
   implicit val materializer = ActorMaterializer()
 
-  val librarian = system.actorOf(RareBooks.props, "rare-books")
+  val librarian = system.actorOf(Librarian.props(Duration.Zero, 0), "rare-books")
 
   val file = Paths.get("books.csv")
 
@@ -50,7 +50,7 @@ object Cataloging extends App {
       .map(parsing)
       .map(conversion)
       .to(Sink.actorRefWithAck(
-        librarian, LibInit, LibAck, LibComplete, LibError))
+         librarian, LibInit, LibAck, LibComplete, LibError))
       .run()
 
   Await.ready(result, Duration.Inf)
