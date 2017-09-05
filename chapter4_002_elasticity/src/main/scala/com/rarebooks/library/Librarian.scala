@@ -107,7 +107,7 @@ class Librarian(findBookDuration: FiniteDuration) extends Actor with ActorLoggin
     case Done(e, s) =>
       process(e, s)
       unstashAll()
-      context.become(ready)
+      context.unbecome()
     case _ =>
       stash()
   }
